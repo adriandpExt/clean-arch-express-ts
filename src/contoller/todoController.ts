@@ -23,10 +23,7 @@ export const TodoController = (interactor: ITodosInteractor) => {
     next: NextFunction
   ) => {
     try {
-      const data = await interactor.update(
-        parseInt(req.params.id),
-        req.body.todo
-      );
+      const data = await interactor.update(req.params.id, req.body.todo);
 
       return res.status(200).json({
         data,
@@ -43,7 +40,10 @@ export const TodoController = (interactor: ITodosInteractor) => {
     next: NextFunction
   ) => {
     try {
-      const data = await interactor.create(req.body.todo);
+      const userId = req.user?.id as string;
+      const { todo } = req.body;
+
+      const data = await interactor.create(userId, todo);
 
       return res.status(201).json({
         data,

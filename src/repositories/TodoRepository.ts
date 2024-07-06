@@ -3,17 +3,18 @@ import { Todos } from "../entities/Todos";
 import { ITodosRepository } from "../interfaces/ITodosRepository";
 
 export const TodoRepository: ITodosRepository = {
-  async create(todo: string) {
+  async create(todo: string, userId: string) {
     return new Promise<Todos>((resolve, reject) => {
-      const postSQL = `INSERT INTO todo_tbl (todo) VALUES (?)`;
+      const postSQL = `INSERT INTO todo_tbl (userId, todo) VALUES (?, ?)`;
+      const values = [userId, todo];
 
-      connection.query(postSQL, [todo], (err, results) => {
+      connection.query(postSQL, values, (err, _results) => {
         if (err) {
           console.log(err.message);
           reject(err);
         } else {
           const newTodo: Todos = {
-            id: (results as unknown as Todos).id,
+            userId: userId,
             todo: todo,
           };
           resolve(newTodo);
@@ -22,7 +23,7 @@ export const TodoRepository: ITodosRepository = {
     });
   },
 
-  async update(id: number, todo: string) {
+  async update(id: string, todo: string) {
     return new Promise<Todos>((resolve, reject) => {
       const values = [todo, id];
       const putSQL = `UPDATE todo_tbl SET todo = ? WHERE id = ?`;
@@ -33,7 +34,7 @@ export const TodoRepository: ITodosRepository = {
           reject(err);
         } else {
           const updatedTodo: Todos = {
-            id: id,
+            id: id as string,
             todo: todo,
           };
           resolve(updatedTodo);

@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from "express";
 
 export const errorHandler = (
   err: any,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";

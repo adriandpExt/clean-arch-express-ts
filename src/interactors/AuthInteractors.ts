@@ -1,4 +1,4 @@
-import { Auth, LoginResponse } from "../entities/Auth";
+import { Auth, LoginResponse, User } from "../entities/Auth";
 import { IAuthInteractor } from "../interfaces/IAuthInteractor";
 import { IAuthRepository } from "../interfaces/IAuthRepository";
 import { generateToken, hashedPassword } from "../utils/auth";
@@ -25,11 +25,15 @@ export const AuthInterators = (
     if (!isPasswordValid) {
       throw { statusCode: 400, message: "Invalid credentials!" };
     }
-
-    const accessToken = generateToken(users.email);
+    const user: User = {
+      email: users.email,
+      userId: users.id as string,
+    };
+    const accessToken = generateToken(user);
     const data: LoginResponse = {
       token: accessToken,
       email: users.email,
+      id: users.id as string,
     };
 
     return data;

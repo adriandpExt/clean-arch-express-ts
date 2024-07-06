@@ -1,8 +1,15 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { User } from "../entities/Auth";
 
-export const generateToken = (email: string) => {
-  return jwt.sign({ email: email }, "SECRET_KEY", { expiresIn: "20m" });
+export const generateToken = (user: User) => {
+  return jwt.sign(
+    { id: user.userId, email: user.email },
+    process.env.SECRET_TOKEN as string,
+    {
+      expiresIn: "20m",
+    }
+  );
 };
 
 export const hashedPassword = async (

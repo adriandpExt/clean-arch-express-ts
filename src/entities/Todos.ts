@@ -1,4 +1,5 @@
 export interface Todos {
-  id?: number;
+  id?: string;
+  userId?: string;
   todo: string;
 }
