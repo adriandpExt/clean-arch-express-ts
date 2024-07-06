@@ -27,7 +27,7 @@ export const TodoController = (interactor: ITodosInteractor) => {
 
       return res.status(200).json({
         data,
-        message: "Todo updated successfully.",
+        message: "Task updated successfully.",
       });
     } catch (error) {
       next(error);
@@ -47,7 +47,7 @@ export const TodoController = (interactor: ITodosInteractor) => {
 
       return res.status(201).json({
         data,
-        message: "Todo created successfully.",
+        message: "Task created successfully.",
       });
     } catch (error) {
       next(error);
